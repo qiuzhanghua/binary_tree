@@ -71,6 +71,57 @@ fn right_of(root: &Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>
     }
 }
 
+/// root is not null
+/// left is none or left has no child
+fn append_to_left(root: &Option<Rc<RefCell<TreeNode>>>, val: i32) -> Option<Rc<RefCell<TreeNode>>> {
+    let mut ans = None;
+    match root {
+        Some(node) => {
+            let mut node = node.borrow_mut();
+            ans = Some(Rc::new(RefCell::new(TreeNode::new(val))));
+            node.left = to_rc(&ans);
+        }
+        None => {}
+    }
+    ans
+}
+
+/// root is not null
+/// right is none or right has no child
+fn append_to_right(
+    root: &Option<Rc<RefCell<TreeNode>>>,
+    val: i32,
+) -> Option<Rc<RefCell<TreeNode>>> {
+    let mut ans = None;
+    match root {
+        Some(node) => {
+            let mut node = node.borrow_mut();
+            ans = Some(Rc::new(RefCell::new(TreeNode::new(val))));
+            node.right = to_rc(&ans);
+        }
+        None => {}
+    }
+    ans
+}
+
+/// Insert a value to Binary Search Tree
+fn insert_bst(root: &mut Option<Rc<RefCell<TreeNode>>>, val: i32) {
+    // insert int binary search tree
+    match root {
+        Some(node) => {
+            let mut node = node.borrow_mut();
+            if node.val > val {
+                insert_bst(&mut node.left, val)
+            } else if node.val < val {
+                insert_bst(&mut node.right, val);
+            }
+        }
+        None => {
+            root.replace(Rc::new(RefCell::new(TreeNode::new(val))));
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
