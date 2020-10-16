@@ -23,7 +23,7 @@ use std::rc::Rc;
 ///
 /// get "Pointer" of a Tree Node
 fn to_rc(root: &Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
-    match *root {
+    match root {
         Some(ref node) => Some(Rc::clone(node)),
         None => None,
     }
