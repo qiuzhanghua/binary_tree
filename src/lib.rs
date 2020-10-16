@@ -29,21 +29,45 @@ fn to_rc(root: &Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> 
     }
 }
 
-/// Insert a value to Binary Search Tree
-fn insert_bst(root: &mut Option<Rc<RefCell<TreeNode>>>, val: i32) {
-    // insert int binary search tree
+///
+/// get value of a Tree Node
+fn val_of(root: &Option<Rc<RefCell<TreeNode>>>) -> Option<i32> {
     match root {
-        Some(node) => {
-            let mut node = node.borrow_mut();
-            if node.val > val {
-                insert_bst(&mut node.left, val)
-            } else if node.val < val {
-                insert_bst(&mut node.right, val);
+        Some(ref node) => {
+            let node = node.borrow();
+            Some(node.val)
+        }
+        None => None,
+    }
+}
+
+///
+/// get left of a Tree Node
+fn left_of(root: &Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
+    match root {
+        Some(ref node) => {
+            let node = node.borrow();
+            match &node.left {
+                Some(l) => Some(Rc::clone(l)),
+                None => None,
             }
         }
-        None => {
-            root.replace(Rc::new(RefCell::new(TreeNode::new(val))));
+        None => None,
+    }
+}
+
+///
+/// get right of a Tree Node
+fn right_of(root: &Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
+    match root {
+        Some(ref node) => {
+            let node = node.borrow();
+            match &node.right {
+                Some(r) => Some(Rc::clone(r)),
+                None => None,
+            }
         }
+        None => None,
     }
 }
 
